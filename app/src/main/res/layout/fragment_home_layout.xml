@@ -1,8 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <com.tunabaranurut.budgetmanager_android.view.compound.shared.TitleBar
+        android:id="@+id/titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/app_name"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Selected Budget"
+        android:gravity="center"
+        android:textSize="20sp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Category panel"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:layout_weight="1"
+        />
+
+    
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Navigation bar"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:layout_weight="0"
+        />
+
 
     <Button
         android:id="@+id/btn"
@@ -10,5 +47,7 @@
         android:layout_height="50dp"
         android:text="Home Fragment"
         />
+
+
 
 </LinearLayout>

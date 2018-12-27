@@ -1,4 +1,4 @@
-package com.tunabaranurut.budgetmanager_android.view;
+package com.tunabaranurut.budgetmanager_android.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,13 +13,13 @@ import android.widget.Toast;
 
 import com.tunabaranurut.budgetmanager_android.R;
 import com.tunabaranurut.budgetmanager_android.commons.MainActivity;
+import com.tunabaranurut.budgetmanager_android.manager.sessioncontroller.OnLoginFailedListener;
+import com.tunabaranurut.budgetmanager_android.manager.sessioncontroller.OnLoginSuccessListener;
+import com.tunabaranurut.budgetmanager_android.manager.sessioncontroller.SessionController;
 import com.tunabaranurut.budgetmanager_android.model.LoginRequest;
-import com.tunabaranurut.budgetmanager_android.model.LoginResponse;
-import com.tunabaranurut.budgetmanager_android.network.RequestManager;
+import com.tunabaranurut.budgetmanager_android.model.SimpleUser;
 import com.tunabaranurut.fragmentcontroller.FragmentController;
 import com.tunabaranurut.fragmentcontroller.PageFragment;
-import com.tunabaranurut.restrequest.callbacks.OnRequestSuccessCallback;
-import com.tunabaranurut.restrequest.response.ApiResponse;
 
 /**
  * Created by tunabaranurut on 26.12.2018.
@@ -78,24 +78,36 @@ public class LoginFragment extends PageFragment<MainActivity> {
                 loginRequest.setId(id);
                 loginRequest.setPassword(password);
 
-                RequestManager.getInstance().login(loginRequest, new OnRequestSuccessCallback() {
+                SessionController.getInstance().login(loginRequest, getMainActivity().microDB, new OnLoginSuccessListener() {
                     @Override
-                    public void onSuccess(ApiResponse apiResponse) {
-                        LoginResponse loginResponse = (LoginResponse) apiResponse.getData();
-                        String nameInfo = null;
-                        try {
-                            nameInfo = loginResponse.getUser().getBasicInfo().getName();
-                        } catch (Exception e) {
-                            Toast.makeText(getContext(),"Wrong id or Password",Toast.LENGTH_SHORT).show();
-                        }
-                        boolean Success= (nameInfo!=null);
-                       if (Success){
-                           textViewUserInfo.setText(nameInfo);
-                           FragmentController.getInstance().setPage(HomeFragment.class, FragmentController.AnimationType.RightToLeft);
-                       }
-     //                   Toast.makeText(MainActivity.this,loginResponse.getUser().getBasicInfo().getName(),Toast.LENGTH_LONG).show();
+                    public void onSuccess(SimpleUser simpleUser) {
+                        FragmentController.getInstance().setPage(HomeFragment.class, FragmentController.AnimationType.RightToLeft);
+                    }
+                }, new OnLoginFailedListener() {
+                    @Override
+                    public void onFailed() {
+                        Toast.makeText(getContext(),"Wrong id or Password",Toast.LENGTH_SHORT).show();
                     }
                 });
+
+//                RequestManager.getInstance().login(loginRequest, new OnRequestSuccessCallback() {
+//                    @Override
+//                    public void onSuccess(ApiResponse apiResponse) {
+//                        LoginResponse loginResponse = (LoginResponse) apiResponse.getData();
+//                        String nameInfo = null;
+//                        try {
+//                            nameInfo = loginResponse.getSimpleUser().getBasicInfo().getName();
+//                        } catch (Exception e) {
+//                            Toast.makeText(getContext(),"Wrong id or Password",Toast.LENGTH_SHORT).show();
+//                        }
+//                        boolean Success= (nameInfo!=null);
+//                       if (Success){
+//                           textViewUserInfo.setText(nameInfo);
+//                           FragmentController.getInstance().setPage(HomeFragment.class, FragmentController.AnimationType.RightToLeft);
+//                       }
+//     //                   Toast.makeText(MainActivity.this,loginResponse.getUser().getBasicInfo().getName(),Toast.LENGTH_LONG).show();
+//                    }
+//                });
             }
         });
     }

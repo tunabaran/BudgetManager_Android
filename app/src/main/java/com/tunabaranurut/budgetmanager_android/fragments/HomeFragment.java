@@ -1,4 +1,4 @@
-package com.tunabaranurut.budgetmanager_android.view;
+package com.tunabaranurut.budgetmanager_android.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +10,8 @@ import android.widget.Button;
 
 import com.tunabaranurut.budgetmanager_android.R;
 import com.tunabaranurut.budgetmanager_android.commons.MainActivity;
+import com.tunabaranurut.budgetmanager_android.manager.sessioncontroller.SessionController;
+import com.tunabaranurut.budgetmanager_android.view.compound.shared.TitleBar;
 import com.tunabaranurut.fragmentcontroller.FragmentController;
 import com.tunabaranurut.fragmentcontroller.PageFragment;
 
@@ -20,6 +22,7 @@ import com.tunabaranurut.fragmentcontroller.PageFragment;
 public class HomeFragment extends PageFragment<MainActivity> {
 
     private Button btn;
+    private TitleBar titleBar;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,6 +35,7 @@ public class HomeFragment extends PageFragment<MainActivity> {
         View v = inflater.inflate(R.layout.fragment_home_layout, container, false);
 
         btn = v.findViewById(R.id.btn);
+        titleBar = v.findViewById(R.id.titlebar);
 
         return v;
     }
@@ -54,9 +58,17 @@ public class HomeFragment extends PageFragment<MainActivity> {
     }
 
     private void setOnClicklisteners(){
+        titleBar.setBackBtnOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SessionController.getInstance().logout(getMainActivity().microDB);
                 FragmentController.getInstance().setPage(LoginFragment.class, FragmentController.AnimationType.RightToLeft);
             }
         });

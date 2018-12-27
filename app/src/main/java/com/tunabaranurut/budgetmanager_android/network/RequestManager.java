@@ -14,11 +14,14 @@ public class RequestManager {
 
     private static RequestManager instance;
 
+//    public static String backendUrl = "http://10.0.2.2:8585";
+    public static String backendUrl = "http://192.168.1.103:8585";
+
     private RestRequest loginRequest;
 
     public void login(LoginRequest request, OnRequestSuccessCallback callback){
         if(loginRequest == null){
-            loginRequest = new RestRequest("http://10.0.2.2:8585/LoginController/login");
+            loginRequest = new RestRequest(backendUrl + "/LoginController/login");
         }
 
         loginRequest.setOnRequestSuccessCallback(callback);

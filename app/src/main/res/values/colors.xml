@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimary">#2F3D74</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="blue">#08123C</color>
+    <color name="background_blue">#2F3D74</color>
+
+    <color name="coolGrey">#919fa2</color>
+    <color name="coolGrey2">#96a4a7</color>
+    <color name="silver">#ccced1</color>
+    <color name="paleGrey">#f4f5f6</color>
+    <color name="dividerGrey">#e4e4e4</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="rouge">#b30d16</color>
+
+    <color name="overlay">#5a000000</color>
+
+    <color name="calendarTextColor">#5a5a5a</color>
+    <color name="calendarHoverColor">#deb1b3</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="dropdown_background">#f4f5f6</color>
+
+    <color name="home_background">#f1f2f6</color>
+
+
+    <color name="redbutton_pressed">#62A494</color>
 </resources>

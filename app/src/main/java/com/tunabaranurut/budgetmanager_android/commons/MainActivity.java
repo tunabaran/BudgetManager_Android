@@ -1,32 +1,34 @@
 package com.tunabaranurut.budgetmanager_android.commons;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tunabaranurut.budgetmanager_android.R;
-import com.tunabaranurut.budgetmanager_android.model.LoginRequest;
-import com.tunabaranurut.budgetmanager_android.model.LoginResponse;
-import com.tunabaranurut.budgetmanager_android.network.RequestManager;
-import com.tunabaranurut.budgetmanager_android.view.LoginFragment;
+import com.tunabaranurut.budgetmanager_android.fragments.HomeFragment;
+import com.tunabaranurut.budgetmanager_android.fragments.LoginFragment;
+import com.tunabaranurut.budgetmanager_android.manager.sessioncontroller.OnLoginFailedListener;
+import com.tunabaranurut.budgetmanager_android.manager.sessioncontroller.OnLoginSuccessListener;
+import com.tunabaranurut.budgetmanager_android.manager.sessioncontroller.SessionController;
+import com.tunabaranurut.budgetmanager_android.model.SimpleUser;
 import com.tunabaranurut.fragmentcontroller.FragmentController;
-import com.tunabaranurut.restrequest.callbacks.OnRequestSuccessCallback;
-import com.tunabaranurut.restrequest.response.ApiResponse;
+import com.tunabaranurut.microdb.base.MicroDB;
 
 public class MainActivity extends BaseActivity {
 
     private static String TAG = MainActivity.class.getSimpleName();
 
+    public MicroDB microDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FragmentController.getInstance().initalize(R.id.main_fragment_container,this);
-        FragmentController.getInstance().setPage(LoginFragment.class);
+        microDB = new MicroDB(this);
 
+        FragmentController.getInstance().initalize(R.id.main_fragment_container,this);
+//        FragmentController.getInstance().setPage(LoginFragment.class);
+
+        checkSession();
         //     LoginRequest loginRequest = new LoginRequest();
 
 
@@ -39,5 +41,23 @@ public class MainActivity extends BaseActivity {
 //            }
 //        });
 
+    }
+
+    private void checkSession(){
+        boolean isTokenAvailable = SessionController.getInstance().refresh(microDB, new OnLoginSuccessListener() {
+            @Override
+            public void onSuccess(SimpleUser simpleUser) {
+                FragmentController.getInstance().setPage(HomeFragment.class);
+            }
+        }, new OnLoginFailedListener() {
+            @Override
+            public void onFailed() {
+                FragmentController.getInstance().setPage(LoginFragment.class);
+            }
+        });
+
+        if(!isTokenAvailable){
+            FragmentController.getInstance().setPage(LoginFragment.class);
+        }
     }
 }
