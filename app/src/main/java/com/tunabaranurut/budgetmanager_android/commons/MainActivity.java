@@ -2,6 +2,7 @@ package com.tunabaranurut.budgetmanager_android.commons;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tunabaranurut.budgetmanager_android.R;
@@ -17,6 +18,7 @@ public class MainActivity extends BaseActivity {
 
     private static String TAG = MainActivity.class.getSimpleName();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,18 +27,17 @@ public class MainActivity extends BaseActivity {
         FragmentController.getInstance().initalize(R.id.main_fragment_container,this);
         FragmentController.getInstance().setPage(LoginFragment.class);
 
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setId("1");
-        loginRequest.setPassword("123456");
+        //     LoginRequest loginRequest = new LoginRequest();
 
-        RequestManager.getInstance().login(loginRequest, new OnRequestSuccessCallback() {
-            @Override
-            public void onSuccess(ApiResponse apiResponse) {
-                LoginResponse loginResponse = (LoginResponse) apiResponse.getData();
-                Toast.makeText(MainActivity.this,loginResponse.getUser().getBasicInfo().getName(),Toast.LENGTH_LONG).show();
-                Log.d(TAG, "onSuccess: ");
-            }
-        });
+
+//        RequestManager.getInstance().login(loginRequest, new OnRequestSuccessCallback() {
+//            @Override
+//            public void onSuccess(ApiResponse apiResponse) {
+//                LoginResponse loginResponse = (LoginResponse) apiResponse.getData();
+//                Toast.makeText(MainActivity.this,loginResponse.getUser().getBasicInfo().getName(),Toast.LENGTH_LONG).show();
+//                Log.d(TAG, "onSuccess: ");
+//            }
+//        });
 
     }
 }
