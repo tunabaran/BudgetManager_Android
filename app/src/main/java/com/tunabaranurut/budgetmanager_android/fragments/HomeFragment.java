@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.tunabaranurut.budgetmanager_android.R;
 import com.tunabaranurut.budgetmanager_android.commons.MainActivity;
@@ -23,6 +24,7 @@ public class HomeFragment extends PageFragment<MainActivity> {
 
     private Button btn;
     private TitleBar titleBar;
+    private TextView testTv;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,6 +38,8 @@ public class HomeFragment extends PageFragment<MainActivity> {
 
         btn = v.findViewById(R.id.btn);
         titleBar = v.findViewById(R.id.titlebar);
+        testTv = v.findViewById(R.id.test);
+
 
         return v;
     }
@@ -45,10 +49,15 @@ public class HomeFragment extends PageFragment<MainActivity> {
         super.onViewCreated(view, savedInstanceState);
 
         setOnClicklisteners();
+
+        onEnterPage();
     }
 
     @Override
     public void onEnterPage() {
+        testTv.setText(String.format("%s %s", SessionController.getInstance().user.getBasicInfo().getName(),
+                SessionController.getInstance().user.getBasicInfo().getLastname()));
+
 
     }
 

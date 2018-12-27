@@ -3,7 +3,7 @@ package com.tunabaranurut.budgetmanager_android.model;
 public class LoginResponse {
 
     private Response response;
-    private SimpleUser simpleUser ;
+    private SimpleUser simpleUser;
     private String token;
 
     public SimpleUser getSimpleUser() {

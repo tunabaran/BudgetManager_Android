@@ -26,7 +26,7 @@ public class SessionController {
 
     private static SessionController instance;
 
-    private SimpleUser user;
+    public SimpleUser user;
 
     public void login(LoginRequest loginRequest, final MicroDB microDB, final OnLoginSuccessListener onLoginSuccessListener, final OnLoginFailedListener onLoginFailedListener){
         RestRequest restRequest = new RestRequest(RequestManager.backendUrl + "/LoginController/login");
@@ -96,6 +96,7 @@ public class SessionController {
             public void onSuccess(ApiResponse apiResponse) {
                 RefreshTokenResponse refreshTokenResponse = (RefreshTokenResponse) apiResponse.getData();
                 if(refreshTokenResponse.getResponse().getCode().equals("20")){
+                    user = refreshTokenResponse.getSimpleUser();
                     try {
                         microDB.save(Constants.SESSION_CACHE_KEY,refreshTokenResponse.getToken());
                     } catch (Exception e) {
