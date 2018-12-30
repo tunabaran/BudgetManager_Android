@@ -13,42 +13,52 @@
         />
 
     <TextView
-        android:id="@+id/test"
+        android:id="@+id/textViewBudget"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Selected Budget"
         android:gravity="center"
-        android:textSize="20sp"
-        />
+        android:text="Selected Budget"
+        android:textSize="20sp" />
 
     <TextView
+        android:id="@+id/textViewCategory"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Category panel"
-        android:gravity="center"
-        android:textSize="20sp"
         android:layout_weight="1"
-        />
-
-
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="Navigation bar"
         android:gravity="center"
-        android:textSize="20sp"
-        android:layout_weight="0"
-        />
+        android:text="Category panel"
+        android:textSize="20sp" />
 
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Category Name : "
+        />
 
     <Button
-        android:id="@+id/btn"
+        android:id="@+id/btnCreateCategory"
         android:layout_width="300dp"
         android:layout_height="50dp"
-        android:text="Home Fragment"
+        android:layout_gravity="center"
+        android:text="Create Category"
         />
 
+   <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimaryDark"
+        app:itemIconTint="#FFFFFF"
+        app:itemTextColor="#FFFFFF"
+        app:menu="@menu/nav_bar"
 
+        >
+
+    </android.support.design.widget.BottomNavigationView>
 
 </LinearLayout>

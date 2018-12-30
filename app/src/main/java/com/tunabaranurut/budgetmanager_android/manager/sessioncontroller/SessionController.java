@@ -3,11 +3,15 @@ package com.tunabaranurut.budgetmanager_android.manager.sessioncontroller;
 import android.util.Log;
 
 import com.tunabaranurut.budgetmanager_android.commons.Constants;
+import com.tunabaranurut.budgetmanager_android.model.Category;
 import com.tunabaranurut.budgetmanager_android.model.LoginRequest;
 import com.tunabaranurut.budgetmanager_android.model.LoginResponse;
 import com.tunabaranurut.budgetmanager_android.model.RefreshTokenRequest;
 import com.tunabaranurut.budgetmanager_android.model.RefreshTokenResponse;
 import com.tunabaranurut.budgetmanager_android.model.SimpleUser;
+import com.tunabaranurut.budgetmanager_android.model.User;
+import com.tunabaranurut.budgetmanager_android.model.route.CreateCategoryRequest;
+import com.tunabaranurut.budgetmanager_android.model.route.CreateCategoryResponse;
 import com.tunabaranurut.budgetmanager_android.network.RequestManager;
 import com.tunabaranurut.microdb.base.MicroDB;
 import com.tunabaranurut.restrequest.RestRequest;
@@ -27,6 +31,9 @@ public class SessionController {
     private static SessionController instance;
 
     public SimpleUser user;
+
+    public User realUser;
+
 
     public void login(LoginRequest loginRequest, final MicroDB microDB, final OnLoginSuccessListener onLoginSuccessListener, final OnLoginFailedListener onLoginFailedListener){
         RestRequest restRequest = new RestRequest(RequestManager.backendUrl + "/LoginController/login");
@@ -62,6 +69,36 @@ public class SessionController {
 
         restRequest.exchange(loginRequest, RequestType.POST, LoginResponse.class);
     }
+
+//    public void createCategory(CreateCategoryRequest createCategoryRequest, final MicroDB microDB ,
+//                               final CreateCategorySuccessListener createCategorySuccessListener,
+//                               final CreateCategoryFailedListener createCategoryFailedListener ){
+//
+//        RestRequest restRequest = new RestRequest(RequestManager.backendUrl + "/CategoryController/createCategory");
+//
+//        restRequest.setOnRequestSuccessCallback(new OnRequestSuccessCallback() {
+//            @Override
+//            public void onSuccess(ApiResponse apiResponse) {
+//                CreateCategoryResponse createCategoryResponse = (CreateCategoryResponse) apiResponse.getData();
+//
+//                if (createCategoryResponse.getResponse().getCode().equals("20")) {
+//                    createCategorySuccessListener.createSuccess(createCategoryResponse.getCategory());
+//                } else {
+//                    Log.e(TAG, "onSuccess: Create Category failed, code : " + createCategoryResponse.getResponse().getCode());
+//                    createCategoryFailedListener.createFailed();
+//                }
+//            }
+//        });
+//       restRequest.setOnRequestFailedCallback(new OnRequestFailedCallback() {
+//           @Override
+//           public void onFailed() {
+//
+//               Log.e(TAG, "onFailed: ");
+//               createCategoryFailedListener.createFailed();
+//           }
+//       });
+//    }
+
 
     public void logout(MicroDB microDB){
         user = null;
@@ -133,4 +170,31 @@ public class SessionController {
         }
         return instance;
     }
+
+    public void createCategory(CreateCategoryRequest createCategoryRequest, MicroDB microDB, final CreateCategorySuccessListener createCategorySuccessListener, final CreateCategoryFailedListener createCategoryFailedListener) {
+        RestRequest restRequest = new RestRequest(RequestManager.backendUrl + "/CategoryController/createCategory");
+
+        restRequest.setOnRequestSuccessCallback(new OnRequestSuccessCallback() {
+            @Override
+            public void onSuccess(ApiResponse apiResponse) {
+                CreateCategoryResponse createCategoryResponse = (CreateCategoryResponse) apiResponse.getData();
+
+                if (createCategoryResponse.getResponse().getCode().equals("20")) {
+                    createCategorySuccessListener.createSuccess(createCategoryResponse.getCategory());
+                } else {
+                    Log.e(TAG, "onSuccess: Create Category failed, code : " + createCategoryResponse.getResponse().getCode());
+                    createCategoryFailedListener.createFailed();
+                }
+            }
+        });
+        restRequest.setOnRequestFailedCallback(new OnRequestFailedCallback() {
+            @Override
+            public void onFailed() {
+
+                Log.e(TAG, "onFailed: ");
+                createCategoryFailedListener.createFailed();
+            }
+        });
+    }
+
 }
