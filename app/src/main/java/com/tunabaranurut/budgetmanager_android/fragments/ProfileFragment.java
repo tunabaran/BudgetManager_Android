@@ -20,7 +20,6 @@ import com.tunabaranurut.fragmentcontroller.PageFragment;
 
 public class ProfileFragment extends PageFragment<MainActivity> {
 
-    private BottomNavigationView navBar;
     private TextView textViewProfile;
     @Override
     public void onEnterPage() {
@@ -39,12 +38,12 @@ public class ProfileFragment extends PageFragment<MainActivity> {
     public View onCreateView(@NonNull LayoutInflater inflater , @Nullable ViewGroup container, @Nullable Bundle saveInstanceState){
         View v = inflater.inflate(R.layout.fragment_profile_layout,container,false);
 
-        navBar          = v.findViewById(R.id.navBar);
+
         textViewProfile = v.findViewById(R.id.textViewProfile);
 
 
 
-        navBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+    /*    navBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -60,7 +59,7 @@ public class ProfileFragment extends PageFragment<MainActivity> {
                 }
                 return false;
             }
-        });
+        });*/
 
 //        User user = new User();
 //        MicroDB microDB = new MicroDB(getContext());

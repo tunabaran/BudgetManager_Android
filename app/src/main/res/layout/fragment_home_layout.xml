@@ -21,7 +21,7 @@
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/textViewCategory"
+        android:id="@+id/category_tv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -47,18 +47,5 @@
         android:text="Create Category"
         />
 
-   <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimaryDark"
-        app:itemIconTint="#FFFFFF"
-        app:itemTextColor="#FFFFFF"
-        app:menu="@menu/nav_bar"
-
-        >
-
-    </android.support.design.widget.BottomNavigationView>
 
 </LinearLayout>

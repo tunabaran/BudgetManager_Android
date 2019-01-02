@@ -3,13 +3,11 @@ package com.tunabaranurut.budgetmanager_android.manager.sessioncontroller;
 import android.util.Log;
 
 import com.tunabaranurut.budgetmanager_android.commons.Constants;
-import com.tunabaranurut.budgetmanager_android.model.Category;
 import com.tunabaranurut.budgetmanager_android.model.LoginRequest;
 import com.tunabaranurut.budgetmanager_android.model.LoginResponse;
 import com.tunabaranurut.budgetmanager_android.model.RefreshTokenRequest;
 import com.tunabaranurut.budgetmanager_android.model.RefreshTokenResponse;
 import com.tunabaranurut.budgetmanager_android.model.SimpleUser;
-import com.tunabaranurut.budgetmanager_android.model.User;
 import com.tunabaranurut.budgetmanager_android.model.route.CreateCategoryRequest;
 import com.tunabaranurut.budgetmanager_android.model.route.CreateCategoryResponse;
 import com.tunabaranurut.budgetmanager_android.network.RequestManager;
@@ -31,8 +29,9 @@ public class SessionController {
     private static SessionController instance;
 
     public SimpleUser user;
+    public String token;
 
-    public User realUser;
+//    public User realUser;
 
 
     public void login(LoginRequest loginRequest, final MicroDB microDB, final OnLoginSuccessListener onLoginSuccessListener, final OnLoginFailedListener onLoginFailedListener){
@@ -46,6 +45,7 @@ public class SessionController {
                 if(loginResponse.getResponse().getCode().equals("20")){
                     user = loginResponse.getSimpleUser();
 
+                    token = loginResponse.getToken();
                     try {
                         microDB.save(Constants.SESSION_CACHE_KEY,loginResponse.getToken());
                     } catch (Exception e) {
@@ -102,6 +102,7 @@ public class SessionController {
 
     public void logout(MicroDB microDB){
         user = null;
+        token = null;
 
         try {
             microDB.delete(Constants.SESSION_CACHE_KEY);
@@ -134,6 +135,7 @@ public class SessionController {
                 RefreshTokenResponse refreshTokenResponse = (RefreshTokenResponse) apiResponse.getData();
                 if(refreshTokenResponse.getResponse().getCode().equals("20")){
                     user = refreshTokenResponse.getSimpleUser();
+                    SessionController.this.token = refreshTokenResponse.getToken();
                     try {
                         microDB.save(Constants.SESSION_CACHE_KEY,refreshTokenResponse.getToken());
                     } catch (Exception e) {
@@ -171,30 +173,34 @@ public class SessionController {
         return instance;
     }
 
-    public void createCategory(CreateCategoryRequest createCategoryRequest, MicroDB microDB, final CreateCategorySuccessListener createCategorySuccessListener, final CreateCategoryFailedListener createCategoryFailedListener) {
+    public void createCategory(CreateCategoryRequest createCategoryRequest  ,OnRequestSuccessCallback callback) {
         RestRequest restRequest = new RestRequest(RequestManager.backendUrl + "/CategoryController/createCategory");
 
-        restRequest.setOnRequestSuccessCallback(new OnRequestSuccessCallback() {
-            @Override
-            public void onSuccess(ApiResponse apiResponse) {
-                CreateCategoryResponse createCategoryResponse = (CreateCategoryResponse) apiResponse.getData();
+        restRequest.setOnRequestSuccessCallback(callback);
 
-                if (createCategoryResponse.getResponse().getCode().equals("20")) {
-                    createCategorySuccessListener.createSuccess(createCategoryResponse.getCategory());
-                } else {
-                    Log.e(TAG, "onSuccess: Create Category failed, code : " + createCategoryResponse.getResponse().getCode());
-                    createCategoryFailedListener.createFailed();
-                }
-            }
-        });
-        restRequest.setOnRequestFailedCallback(new OnRequestFailedCallback() {
-            @Override
-            public void onFailed() {
+        restRequest.exchange(createCategoryRequest,RequestType.POST,CreateCategoryResponse.class);
 
-                Log.e(TAG, "onFailed: ");
-                createCategoryFailedListener.createFailed();
-            }
-        });
+//        restRequest.setOnRequestSuccessCallback(new OnRequestSuccessCallback() {
+//            @Override
+//            public void onSuccess(ApiResponse apiResponse) {
+//                CreateCategoryResponse createCategoryResponse = (CreateCategoryResponse) apiResponse.getData();
+//
+//                if (createCategoryResponse.getResponse().getCode().equals("20")) {
+//                    createCategorySuccessListener.createSuccess(createCategoryResponse.getCategory());
+//                } else {
+//                    Log.e(TAG, "onSuccess: Create Category failed, code : " + createCategoryResponse.getResponse().getCode());
+////                    createCategoryFailedListener.createFailed();
+//                }
+//            }
+//        });
+//        restRequest.setOnRequestFailedCallback(new OnRequestFailedCallback() {
+//            @Override
+//            public void onFailed() {
+//
+//                Log.e(TAG, "onFailed: ");
+//                createCategoryFailedListener.createFailed();
+//            }
+//        });
     }
 
 }

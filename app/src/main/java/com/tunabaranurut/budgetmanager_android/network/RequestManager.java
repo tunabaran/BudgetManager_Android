@@ -14,7 +14,8 @@ public class RequestManager {
 
     private static RequestManager instance;
 
-    public static String backendUrl = "http://192.168.0.22:8585";
+//    public static String backendUrl = "http://192.168.0.22:8585";
+    public static String backendUrl = "http://10.0.2.2:8585";
 //    public static String backendUrl = "http://192.168.1.102:8585";
 
 

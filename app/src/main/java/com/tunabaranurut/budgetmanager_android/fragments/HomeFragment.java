@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.tunabaranurut.budgetmanager_android.R;
@@ -18,9 +19,12 @@ import com.tunabaranurut.budgetmanager_android.manager.sessioncontroller.CreateC
 import com.tunabaranurut.budgetmanager_android.manager.sessioncontroller.SessionController;
 import com.tunabaranurut.budgetmanager_android.model.Category;
 import com.tunabaranurut.budgetmanager_android.model.route.CreateCategoryRequest;
+import com.tunabaranurut.budgetmanager_android.model.route.CreateCategoryResponse;
 import com.tunabaranurut.budgetmanager_android.view.compound.shared.TitleBar;
 import com.tunabaranurut.fragmentcontroller.FragmentController;
 import com.tunabaranurut.fragmentcontroller.PageFragment;
+import com.tunabaranurut.restrequest.callbacks.OnRequestSuccessCallback;
+import com.tunabaranurut.restrequest.response.ApiResponse;
 
 /**
  * Created by tunabaranurut on 26.12.2018.
@@ -30,8 +34,9 @@ public class HomeFragment extends PageFragment<MainActivity> {
 
     private Button btnCreateCategory;
     private TitleBar titleBar;
-    private TextView testTv,textViewCategory;
+    private TextView testTv,categoryTv;
     private BottomNavigationView navBar;
+    private EditText editText;
 
 
     @Override
@@ -48,24 +53,28 @@ public class HomeFragment extends PageFragment<MainActivity> {
         btnCreateCategory = v.findViewById(R.id.btnCreateCategory);
         titleBar = v.findViewById(R.id.titlebar);
         navBar = v.findViewById(R.id.navBar);
-        textViewCategory = v.findViewById(R.id.textViewCategory);
+        categoryTv = v.findViewById(R.id.category_tv);
+        editText = v.findViewById(R.id.editText);
 
-        navBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                switch (item.getItemId()){
-                    case R.id.profile:
-                        FragmentController.getInstance().setPage(ProfileFragment.class, FragmentController.AnimationType.LeftToRight);
-                        break;
-
-                    case R.id.settings:
-                        FragmentController.getInstance().setPage(SettingsFragment.class, FragmentController.AnimationType.RightToLeft);
-                        break;
-                }
-                return false;
-            }
-        });
+//        navBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//
+//                switch (item.getItemId()){
+//                    case R.id.profile:
+//                        FragmentController.getInstance().setPage(ProfileFragment.class, FragmentController.AnimationType.LeftToRight);
+//                        break;
+//
+//                    case R.id.settings:
+//                        FragmentController.getInstance().setPage(SettingsFragment.class, FragmentController.AnimationType.RightToLeft);
+//                        break;
+//
+//                    case R.id.home:
+//                        FragmentController.getInstance().setPage(HomeFragment.class,FragmentController.AnimationType.LeftToRight);
+//                }
+//                return false;
+//            }
+//        });
 
 
         return v;
@@ -101,16 +110,20 @@ public class HomeFragment extends PageFragment<MainActivity> {
         btnCreateCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String categoryName = textViewCategory.getText().toString();
+                String categoryName = editText.getText().toString();
 
                 CreateCategoryRequest createCategoryRequest = new CreateCategoryRequest();
-                createCategoryRequest.setUserId(SessionController.getInstance().realUser.getId());
+                createCategoryRequest.setToken(SessionController.getInstance().token);
                 createCategoryRequest.setName(categoryName);
 
-                SessionController.getInstance().createCategory(createCategoryRequest, getMainActivity().microDB, new CreateCategorySuccessListener() {
+                SessionController.getInstance().createCategory(createCategoryRequest, new OnRequestSuccessCallback() {
                     @Override
-                    public void createSuccess(Category category) {
+                    public void onSuccess(ApiResponse apiResponse) {
+                        CreateCategoryResponse createCategoryResponse = (CreateCategoryResponse) apiResponse.getData();
 
+                        if(createCategoryResponse.getResponse().getCode().equals("20")){
+                            categoryTv.setText(categoryTv.getText() + "\n" + createCategoryResponse.getCategory().getName());
+                        }
                     }
                 });
 

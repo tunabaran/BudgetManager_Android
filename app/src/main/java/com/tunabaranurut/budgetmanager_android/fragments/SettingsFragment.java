@@ -18,7 +18,6 @@ import com.tunabaranurut.fragmentcontroller.PageFragment;
 public class SettingsFragment extends PageFragment<MainActivity> {
 
     private TextView textViewSettings;
-    private BottomNavigationView navBar;
 
     @Override
     public void onEnterPage() {
@@ -35,9 +34,8 @@ public class SettingsFragment extends PageFragment<MainActivity> {
         View v = inflater.inflate(R.layout.fragment_settings_layout,container,false);
 
         textViewSettings =v.findViewById(R.id.textViewSettings);
-        navBar           = v.findViewById(R.id.navBar);
 
-        navBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+      /*  navBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -53,7 +51,7 @@ public class SettingsFragment extends PageFragment<MainActivity> {
                 return false;
             }
         });
-
+*/
         return v;
     }
 }

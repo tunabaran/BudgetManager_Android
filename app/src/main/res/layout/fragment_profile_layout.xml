@@ -11,20 +11,6 @@
         />
 
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@color/colorPrimaryDark"
-        app:itemIconTint="#FFFFFF"
-        app:itemTextColor="#FFFFFF"
-        app:menu="@menu/nav_bar"
-
-        >
-
-    </android.support.design.widget.BottomNavigationView>
-
     <TextView
         android:id="@+id/textViewProfile"
         android:layout_width="wrap_content"

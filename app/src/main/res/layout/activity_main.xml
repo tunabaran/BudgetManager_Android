@@ -4,11 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.tunabaranurut.budgetmanager_android.commons.MainActivity">
+    tools:context="com.tunabaranurut.budgetmanager_android.commons.MainActivity"
+    android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/main_fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        />
+
+
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:layout_gravity="bottom"
+        android:background="@color/colorPrimaryDark"
+        app:itemIconTint="#FFFFFF"
+        app:itemTextColor="#FFFFFF"
+        app:menu="@menu/nav_bar"
+
+        >
+
+    </android.support.design.widget.BottomNavigationView>
 
 </LinearLayout>

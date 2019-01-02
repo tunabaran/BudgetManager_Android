@@ -4,16 +4,16 @@ package com.tunabaranurut.budgetmanager_android.model.route;
 
 public class CreateCategoryRequest {
 
-    private String userId;
+    private String token;
 
     private String name;
 
-    public String getUserId() {
-        return userId;
+    public String getToken() {
+        return token;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getName() {
